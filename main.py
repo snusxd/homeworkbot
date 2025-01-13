@@ -5,9 +5,9 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.client.bot import DefaultBotProperties
 
-from config import BOT_TOKEN
+from config.config import BOT_TOKEN
 from handlers import common, admin
-from scheduler import scheduler_loop
+from config.scheduler import scheduler_loop
 
 logging.basicConfig(level=logging.INFO)
 

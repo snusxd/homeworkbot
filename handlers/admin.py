@@ -4,10 +4,10 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from config import ADMIN_ID
+from config.config import ADMIN_ID
 from .states import AdminStates
 from .keyboards import admin_menu_kb
-from bot_settings import (
+from config.bot_settings import (
     set_channel_id, get_channel_id,
     set_send_time, get_send_time
 )

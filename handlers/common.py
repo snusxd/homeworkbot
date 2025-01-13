@@ -4,14 +4,14 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from users_data import get_user_group, set_user_group
+from config.users_data import get_user_group, set_user_group
 from .states import UserStates
 from .keyboards import (
     choose_group_initial_kb,
     main_menu_kb,
     group_menu_kb
 )
-from netschool_api import fetch_homework_for_group
+from config.netschool_api import fetch_homework_for_group
 
 router = Router()
 
