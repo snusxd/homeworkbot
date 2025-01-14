@@ -8,8 +8,15 @@ def choose_group_initial_kb():
 
 def main_menu_kb():
     kb = [
-        [InlineKeyboardButton(text="Посмотреть ДЗ на завтра", callback_data="view_homework")],
+        [InlineKeyboardButton(text="Посмотреть ДЗ", callback_data="view_homework")],
         [InlineKeyboardButton(text="Изменить свою группу", callback_data="choose_group")]
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=kb)
+
+def day_choice_kb():
+    kb = [
+        [InlineKeyboardButton(text="Сегодня", callback_data="dz_today"),
+         InlineKeyboardButton(text="Завтра", callback_data="dz_tomorrow")]
     ]
     return InlineKeyboardMarkup(inline_keyboard=kb)
 

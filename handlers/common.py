@@ -9,7 +9,8 @@ from .states import UserStates
 from .keyboards import (
     choose_group_initial_kb,
     main_menu_kb,
-    group_menu_kb
+    group_menu_kb,
+    day_choice_kb
 )
 from config.netschool_api import fetch_homework_for_group
 
@@ -69,16 +70,40 @@ async def callback_confirm_group(callback: CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(F.data == "view_homework")
-async def callback_view_homework(callback: CallbackQuery):
+async def callback_view_homework_choice(callback: CallbackQuery):
     user_id = callback.from_user.id
     group_name = get_user_group(user_id)
+
     if group_name is None:
         await callback.message.edit_text(
             text="Сначала выбери свою группу!",
-            reply_markup=choose_group_initial_kb()
+            reply_markup=group_menu_kb()
         )
         return
 
-    hw_text = await fetch_homework_for_group(group_name)
+    await callback.message.edit_text(
+        text="Какой день интересует?",
+        reply_markup=day_choice_kb()
+    )
+
+
+@router.callback_query(F.data.in_({"dz_today", "dz_tomorrow"}))
+async def callback_view_homework_for_day(callback: CallbackQuery):
+    user_id = callback.from_user.id
+    group_name = get_user_group(user_id)
+
+    if group_name is None:
+        await callback.message.edit_text(
+            text="Сначала выбери свою группу!",
+            reply_markup=group_menu_kb()
+        )
+        return
+
+    if callback.data == "dz_today":
+        day = "today"
+    else:
+        day = "tomorrow"
+
+    hw_text = await fetch_homework_for_group(group_name, day=day)
 
     await callback.message.edit_text(hw_text)

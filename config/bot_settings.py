@@ -1,5 +1,6 @@
 import json
 import os
+import datetime
 from typing import Optional
 
 SETTINGS_FILE = "data/settings.json"
@@ -45,4 +46,16 @@ def get_send_time() -> Optional[str]:
 def set_send_time(time_str: str):
     data = load_settings()
     data["SEND_TIME"] = time_str
+    save_settings(data)
+
+def get_last_bot_message_time() -> Optional[datetime.datetime]:
+    data = load_settings()
+    val = data.get("LAST_BOT_MESSAGE_TIME")
+    if val is None:
+        return None
+    return datetime.datetime.fromisoformat(val)
+
+def set_last_bot_message_time(dt: datetime.datetime):
+    data = load_settings()
+    data["LAST_BOT_MESSAGE_TIME"] = dt.isoformat()
     save_settings(data)

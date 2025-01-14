@@ -3,7 +3,7 @@ import datetime
 from netschoolapi import NetSchoolAPI, errors
 from config.config import NS_URL, SCHOOL_ID, GROUP_CREDENTIALS
 
-async def fetch_homework_for_group(group_name: str) -> str:
+async def fetch_homework_for_group(group_name: str, day: str) -> str:
     credentials = GROUP_CREDENTIALS.get(group_name)
     if not credentials:
         return f"Не найдены учётные данные для группы '{group_name}'!"
@@ -11,8 +11,12 @@ async def fetch_homework_for_group(group_name: str) -> str:
     user_name = credentials["login"]
     password = credentials["password"]
 
-    tomorrow = datetime.date.today() + datetime.timedelta(days=1)
-    tomorrow_str = tomorrow.strftime("%d.%m.%Y")
+    the_date = datetime.date.today()
+
+    if day == "tomorrow":
+        the_date += datetime.timedelta(days=1)
+
+    the_date_str = the_date.strftime("%d.%m.%Y")
 
     async with NetSchoolAPI(NS_URL) as api:
         try:
@@ -31,8 +35,8 @@ async def fetch_homework_for_group(group_name: str) -> str:
 
         try:
             diary = await api.diary(
-                start=tomorrow,
-                end=tomorrow,
+                start=the_date,
+                end=the_date,
                 requests_timeout=30
             )
         except errors.NoResponseFromServer:
@@ -62,7 +66,7 @@ async def fetch_homework_for_group(group_name: str) -> str:
         return "На завтра нет заданий, наслаждайся отдыхом!"
 
     header = (
-        f"<b>ДОМАШНЕЕ ЗАДАНИЕ НА <u>{tomorrow_str}</u></b>\n"
+        f"<b>ДОМАШНЕЕ ЗАДАНИЕ НА <u>{the_date_str}</u></b>\n"
         f"<b>{group_name}:</b>\n\n"
     )
     body = "\n".join(homework_lines)
