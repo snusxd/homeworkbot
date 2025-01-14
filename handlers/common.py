@@ -10,7 +10,8 @@ from .keyboards import (
     choose_group_initial_kb,
     main_menu_kb,
     group_menu_kb,
-    day_choice_kb
+    day_choice_kb,
+    back_to_main_kb
 )
 from config.netschool_api import fetch_homework_for_group
 
@@ -106,4 +107,14 @@ async def callback_view_homework_for_day(callback: CallbackQuery):
 
     hw_text = await fetch_homework_for_group(group_name, day=day)
 
-    await callback.message.edit_text(hw_text)
+    await callback.message.edit_text(
+        text=hw_text,
+        reply_markup=back_to_main_kb()
+    )
+
+@router.callback_query(F.data == "back_to_main")
+async def callback_back_to_main(callback: CallbackQuery):
+    await callback.message.edit_text(
+        text="Добро пожаловать! 😉",
+        reply_markup=main_menu_kb()
+    )

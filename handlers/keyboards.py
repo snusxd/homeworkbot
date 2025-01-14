@@ -47,3 +47,9 @@ def check_channel_kb():
         [InlineKeyboardButton(text="Проверить ещё раз", callback_data="channel_not_ready")]
     ]
     return InlineKeyboardMarkup(inline_keyboard=kb)
+
+def back_to_main_kb():
+    kb = [
+        [InlineKeyboardButton(text="Назад", callback_data="back_to_main")]
+    ]
+    return InlineKeyboardMarkup(inline_keyboard=kb)
