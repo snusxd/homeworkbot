@@ -4,6 +4,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
+from database.users_database import save_user_data, load_user_group
 from config.users_data import get_user_group, set_user_group
 from .states import UserStates
 from .keyboards import (
@@ -46,19 +47,21 @@ async def callback_choose_group(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(UserStates.choose_group, F.data.in_({"group_infotech1", "group_infotech2", "group_himbio"}))
 async def callback_confirm_group(callback: CallbackQuery, state: FSMContext):
     user_id = callback.from_user.id
-    old_group = get_user_group(user_id)
+
+    group = load_user_group(user_id)
 
     if callback.data == "group_infotech1":
-        new_group = "Инфотех (1)"
+        group = "Инфотех (1)"
     elif callback.data == "group_infotech2":
-        new_group = "Инфотех (2)"
+        group = "Инфотех (2)"
     else:
-        new_group = "Химбио"
+        group = "Химбио"
 
-    set_user_group(user_id, new_group)
+    save_user_data(user_id, group)
+    
     await state.clear()
 
-    if old_group is None:
+    if group is None:
         await callback.message.edit_text(
             text="Добро пожаловать! 😉",
             reply_markup=main_menu_kb()
