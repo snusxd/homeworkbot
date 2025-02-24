@@ -41,7 +41,7 @@ def load_user_group(id:int):
     cursor = connection.cursor()
 
     cursor.execute("SELECT id FROM Users WHERE id = ?", (id,))
-    group = cursor.fetchone()[0]
+    group = cursor.fetchone()[1]
 
     connection.commit()
     connection.close()
