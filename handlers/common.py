@@ -5,7 +5,6 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
 from database.users_database import save_user_data, load_user_group
-from config.users_data import get_user_group, set_user_group
 from .states import UserStates
 from .keyboards import (
     choose_group_initial_kb,
@@ -21,7 +20,7 @@ router = Router()
 @router.message(Command("start"))
 async def cmd_start(message: Message):
     user_id = message.from_user.id
-    group_name = get_user_group(user_id)
+    group_name = load_user_group(user_id)
 
     if group_name is None:
         await message.answer(
@@ -76,7 +75,7 @@ async def callback_confirm_group(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(F.data == "view_homework")
 async def callback_view_homework_choice(callback: CallbackQuery):
     user_id = callback.from_user.id
-    group_name = get_user_group(user_id)
+    group_name = load_user_group(user_id)
 
     if group_name is None:
         await callback.message.edit_text(
@@ -94,7 +93,7 @@ async def callback_view_homework_choice(callback: CallbackQuery):
 @router.callback_query(F.data.in_({"dz_today", "dz_tomorrow"}))
 async def callback_view_homework_for_day(callback: CallbackQuery):
     user_id = callback.from_user.id
-    group_name = get_user_group(user_id)
+    group_name = load_user_group(user_id)
 
     if group_name is None:
         await callback.message.edit_text(
