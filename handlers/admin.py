@@ -7,10 +7,7 @@ from aiogram.fsm.context import FSMContext
 from config.config import ADMIN_ID
 from .states import AdminStates
 from .keyboards import admin_menu_kb
-from config.bot_settings import (
-    set_channel_id, get_channel_id,
-    set_send_time, get_send_time
-)
+from config.bot_settings import *
 
 router = Router()
 

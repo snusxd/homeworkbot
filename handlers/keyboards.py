@@ -30,8 +30,6 @@ def group_menu_kb():
     ]
     return InlineKeyboardMarkup(inline_keyboard=kb)
 
-
-
 def admin_menu_kb():
     kb = [
         [InlineKeyboardButton(text="Выбрать канал для рассылки", callback_data="select_channel")],
@@ -39,7 +37,6 @@ def admin_menu_kb():
         [InlineKeyboardButton(text="Просмотреть выбранные настройки", callback_data="view_settings")],
     ]
     return InlineKeyboardMarkup(inline_keyboard=kb)
-
 
 def check_channel_kb():
     kb = [

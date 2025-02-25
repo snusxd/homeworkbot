@@ -6,12 +6,7 @@ from aiogram import Bot
 
 from .netschool_api import fetch_homework_for_group
 from .config import GROUP_CREDENTIALS
-from .bot_settings import (
-    get_channel_id,
-    get_send_time,
-    get_last_bot_message_time,
-    set_last_bot_message_time
-)
+from .bot_settings import *
 
 logging.basicConfig(level=logging.INFO)
 

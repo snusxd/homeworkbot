@@ -40,10 +40,12 @@ def load_user_group(id:int):
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
 
-    cursor.execute("SELECT id FROM Users WHERE id = ?", (id,))
+    cursor.execute("SELECT selected_group FROM Users WHERE id = ?", (id,))
     group = cursor.fetchone()[0]
 
     connection.commit()
     connection.close()
+
+    print(group)
 
     return group

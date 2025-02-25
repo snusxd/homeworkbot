@@ -1,7 +1,7 @@
 import datetime
 
 from netschoolapi import NetSchoolAPI, errors
-from config.config import NS_URL, SCHOOL_ID, GROUP_CREDENTIALS
+from config.config import *
 
 async def fetch_homework_for_group(group_name: str, day: str) -> str:
     credentials = GROUP_CREDENTIALS.get(group_name)

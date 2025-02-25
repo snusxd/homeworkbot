@@ -6,13 +6,7 @@ from aiogram.fsm.context import FSMContext
 
 from database.users_database import save_user_data, load_user_group
 from .states import UserStates
-from .keyboards import (
-    choose_group_initial_kb,
-    main_menu_kb,
-    group_menu_kb,
-    day_choice_kb,
-    back_to_main_kb
-)
+from .keyboards import *
 from config.netschool_api import fetch_homework_for_group
 
 router = Router()
