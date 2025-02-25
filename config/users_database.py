@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 def save_user_data(id: int, group: str):
-    db_path = os.path.join("Users", "Users.db")
+    db_path = os.path.join("data", "Users.db")
 
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
@@ -20,7 +20,7 @@ def save_user_data(id: int, group: str):
 
 
 def load_user_group(id:int):
-    db_path = os.path.join("Users", "Users.db")
+    db_path = os.path.join("data", "Users.db")
 
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
