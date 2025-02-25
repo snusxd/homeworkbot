@@ -1,12 +1,11 @@
-import asyncio
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.fsm.context import FSMContext
 
-from database.users_database import save_user_data, load_user_group
 from .states import UserStates
 from .keyboards import *
+from config.users_database import *
 from config.netschool_api import fetch_homework_for_group
 
 router = Router()

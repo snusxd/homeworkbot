@@ -1,24 +1,8 @@
 import sqlite3
 import os
-from typing import Optional
-
-def create_database_file():
-    os.makedirs("database", exist_ok=True)
-    db_path = os.path.join("database", "database.db")
-
-    connection = sqlite3.connect(db_path)
-    cursor = connection.cursor()
-
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS Users (id, selected_group)
-    ''')
-
-    connection.commit()
-    connection.close()
-
 
 def save_user_data(id: int, group: str):
-    db_path = os.path.join("database", "database.db")
+    db_path = os.path.join("Users", "Users.db")
 
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
@@ -34,8 +18,9 @@ def save_user_data(id: int, group: str):
     connection.commit()
     connection.close()
 
+
 def load_user_group(id:int):
-    db_path = os.path.join("database", "database.db")
+    db_path = os.path.join("Users", "Users.db")
 
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
@@ -45,7 +30,5 @@ def load_user_group(id:int):
 
     connection.commit()
     connection.close()
-
-    print(group)
 
     return group
