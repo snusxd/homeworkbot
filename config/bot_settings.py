@@ -5,7 +5,6 @@ from typing import Optional
 
 SETTINGS_FILE = "data/settings.json"
 
-
 def load_settings() -> dict:
     if not os.path.exists(SETTINGS_FILE):
         return {}

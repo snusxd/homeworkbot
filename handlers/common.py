@@ -8,21 +8,28 @@ from .keyboards import *
 from config.users_database import *
 from config.netschool_api import fetch_homework_for_group
 
+import os.path
+
 router = Router()
 
 @router.message(Command("start"))
 async def cmd_start(message: Message):
+    if not os.path.exists("data/Users.db"):
+        create_database_file()
+
     user_id = message.from_user.id
+
+    add_user(user_id)
     group_name = load_user_group(user_id)
 
     if group_name is None:
         await message.answer(
-            "Ты ещё не выбрал группу. Нажми на кнопку ниже!",
+            "Для начала выбери свою группу!",
             reply_markup=choose_group_initial_kb()
         )
     else:
         await message.answer(
-            "Добро пожаловать! 😉",
+            f"Добро пожаловать! 😉\n\nВыбранная группа: {group_name}",
             reply_markup=main_menu_kb()
         )
 
@@ -39,28 +46,28 @@ async def callback_choose_group(callback: CallbackQuery, state: FSMContext):
 @router.callback_query(UserStates.choose_group, F.data.in_({"group_infotech1", "group_infotech2", "group_himbio"}))
 async def callback_confirm_group(callback: CallbackQuery, state: FSMContext):
     user_id = callback.from_user.id
-
-    group = load_user_group(user_id)
+    group_name = None
 
     if callback.data == "group_infotech1":
-        group = "Инфотех (1)"
+        group_name = "Инфотех (1)"
     elif callback.data == "group_infotech2":
-        group = "Инфотех (2)"
+        group_name = "Инфотех (2)"
     else:
-        group = "Химбио"
+        group_name = "Химбио"
 
-    save_user_data(user_id, group)
-    
+    save_user_data(user_id, group_name)
     await state.clear()
 
-    if group is None:
+    group_name = load_user_group(user_id)
+
+    if group_name is None:
         await callback.message.edit_text(
             text="Добро пожаловать! 😉",
             reply_markup=main_menu_kb()
         )
     else:
         await callback.message.edit_text(
-            text="Группа успешно изменена!\nТеперь выбери действие! 😊",
+            text=f"Группа успешно изменена!\nТеперь выбери действие! 😊\n\nВыбранная группа: {group_name}",
             reply_markup=main_menu_kb()
         )
 
