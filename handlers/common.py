@@ -7,14 +7,13 @@ from .states import UserStates
 from .keyboards import *
 from config.users_database import *
 from config.netschool_api import fetch_homework_for_group
-
-import os.path
+from config.users_database import DB_PATH
 
 router = Router()
 
 @router.message(Command("start"))
 async def cmd_start(message: Message):
-    if not os.path.exists("data/Users.db"):
+    if not os.path.exists(DB_PATH):
         create_database_file()
 
     user_id = message.from_user.id
