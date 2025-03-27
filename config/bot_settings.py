@@ -30,7 +30,6 @@ def get_channel_id() -> Optional[int]:
         return cid
     return None
 
-
 def set_channel_id(channel_id: int):
     data = load_settings()
     data["CHANNEL_ID"] = channel_id
